@@ -1,5 +1,7 @@
 package com.ctbu.school.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ctbu.school.model.Comment;
 import com.ctbu.school.model.Inform;
 import com.ctbu.school.service.InformService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,11 @@ public class InformController {
 
     @GetMapping("/inform")
     @ResponseBody
-    public List<Inform> inform(){
-        System.err.println(informService.list());
-      return informService.list();
+    public List<Inform> inform(@RequestParam("classId")long classId){
+        QueryWrapper<Inform> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("class_id",classId);
+        System.err.println(informService.list(queryWrapper));
+      return informService.list(queryWrapper);
     }
 
     @GetMapping("/inform/detail")

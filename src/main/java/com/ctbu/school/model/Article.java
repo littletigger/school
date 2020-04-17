@@ -15,7 +15,7 @@ public class Article extends  BaseEntity{
     String imageUrl;
     int count;
 
-    String classId;
+    long classId;
 
 
 

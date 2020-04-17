@@ -10,5 +10,6 @@ public class Inform  extends  BaseEntity{
      String content;
      String author;
      String imageUrl;
+     long classId;
 
 }

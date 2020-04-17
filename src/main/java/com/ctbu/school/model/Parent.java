@@ -3,13 +3,14 @@ package com.ctbu.school.model;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-@TableName("teacher")
+import java.util.List;
+
+@TableName("parent")
 @Data
-public class Teacher extends BaseEntity{
+public class Parent  extends BaseEntity{
     String name;
     String phone;
     String password;
     String avatar;
-
 
 }

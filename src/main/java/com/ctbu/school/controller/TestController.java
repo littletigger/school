@@ -10,10 +10,7 @@ import com.ctbu.school.service.TestService;
 import org.nutz.dao.entity.annotation.Index;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +33,13 @@ public class TestController {
     }
     @GetMapping("/index")
     @ResponseBody
-    public List<IndexDto> index(){
+    public List<IndexDto> index(@RequestParam("classId")long classId){
         QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
-
+        QueryWrapper<Article> queryWrapperAticle = new QueryWrapper<>();
+        queryWrapperAticle.eq("class_id",classId);
         List<IndexDto>indexDtos=new ArrayList<>();
         //System.err.println( articleService.list());
-        for (Article a:articleService.list()
+        for (Article a:articleService.list(queryWrapperAticle)
              ) {
             queryWrapper.eq("article_id",a.getId());
            indexDtos.add(new IndexDto(a,commentService.list(queryWrapper)));
