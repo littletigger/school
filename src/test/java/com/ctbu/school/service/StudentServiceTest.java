@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -17,11 +20,9 @@ public class StudentServiceTest {
     StudentService studentService;
     @Test
     public void getOne() {
-        QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
-
-            queryWrapper.eq("phone","17784456304");
-            Student student=studentService.getOne(queryWrapper);
-            System.err.println(student);
+        SimpleDateFormat format=new SimpleDateFormat("MM-dd HH:mm:ss E");
+        String time=format.format(new Date());
+        System.out.println("当前时间: "+time);
 
 
 

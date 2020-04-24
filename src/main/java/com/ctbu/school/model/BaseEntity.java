@@ -7,4 +7,5 @@ import java.util.Date;
 public class BaseEntity {
     long id;
     Date createTime=new Date();
+
 }

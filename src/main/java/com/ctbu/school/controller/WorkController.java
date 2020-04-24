@@ -20,7 +20,7 @@ public class WorkController {
     WorkService workService;
     @GetMapping("/work")
     @ResponseBody
-    public List<Work> homeWorke(@RequestParam("classId")long classId){
+    public List<Work> homeWork(@RequestParam("classId")long classId){
         Date date=new Date();
         QueryWrapper<Work> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("class_id",classId);
@@ -28,6 +28,27 @@ public class WorkController {
        List<Work>workList= workService.list(queryWrapper);
         for (Work w: workList
              ) {
+            if (date.before(w.getEndTime())){
+                w.setState("进行中");
+            }else {
+                w.setState("已截止");
+            }
+
+        }
+        System.err.println(workList);
+        return workList ;
+    }
+
+    @GetMapping("/twork")
+    @ResponseBody
+    public List<Work> ThomeWork(@RequestParam("teacherId")long teacherId){
+        Date date=new Date();
+        QueryWrapper<Work> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("teacher_id",teacherId);
+        ;
+        List<Work>workList= workService.list(queryWrapper);
+        for (Work w: workList
+        ) {
             if (date.before(w.getEndTime())){
                 w.setState("进行中");
             }else {

@@ -2,13 +2,11 @@ package com.ctbu.school.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ctbu.school.dto.StuParentDto;
-import com.ctbu.school.model.Comment;
-import com.ctbu.school.model.Inform;
-import com.ctbu.school.model.Parent;
-import com.ctbu.school.model.Student;
+import com.ctbu.school.model.*;
 import com.ctbu.school.service.ParentService;
 import com.ctbu.school.service.Stu_parentService;
 import com.ctbu.school.service.StudentService;
+import com.ctbu.school.service.TeacherService;
 import com.ctbu.school.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +28,8 @@ public class LoginController {
     ParentService parentService;
     @Autowired
     Stu_parentService stu_parentService;
+    @Autowired
+    TeacherService teacherService;
 
     @PostMapping("/login")
     @ResponseBody
@@ -47,7 +47,7 @@ public class LoginController {
 
         }else if(radio.equals("2")){
             QueryWrapper<Parent> queryWrappertwo = new QueryWrapper<>();
-            queryWrappertwo.eq("phone",user);
+            queryWrappertwo.eq("phone",user).eq("password",password);
             Parent parent=parentService.getOne(queryWrappertwo);
             StuParentDto stuParentDto=new StuParentDto();
             stuParentDto.setParent(parent);
@@ -59,6 +59,16 @@ public class LoginController {
             }
             if(parent!=null&student!=null)
             return Result.success(stuParentDto);
+        }
+        else if(radio.equals("3")){
+            QueryWrapper<Teacher> queryWrappertea= new QueryWrapper<>();
+            queryWrappertea.eq("phone",user).eq("password",password);
+            Teacher teacher=teacherService.getOne(queryWrappertea);
+            System.err.println(teacher);
+            if ((teacher!=null)){
+                return Result.success(teacher);
+            }
+
         }
         return Result.error(0,"用户不存在！");
 

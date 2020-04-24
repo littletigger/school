@@ -1,6 +1,7 @@
 package com.ctbu.school.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.ctbu.school.model.Inform;
 import com.ctbu.school.model.Teacher;
 import com.ctbu.school.model.TeacherClass;
@@ -36,8 +37,34 @@ public class VacateController {
         }
         return Result.error(0,"找不到老师");
 
+    }
+
+    @GetMapping("/vaList")
+    @ResponseBody
+    public Result vaList(@RequestParam("teacherId")long teacherId ){
+        QueryWrapper<Vacate> queryWrapper=new QueryWrapper();
+        queryWrapper.eq("teacher_id",teacherId);
+
+        return  Result.success(vacateService.list(queryWrapper));
+
+    }
+    @GetMapping("/vaDetail")
+    @ResponseBody
+    public Result vaDetail(@RequestParam("id")long id){
 
 
+        return  Result.success(vacateService.getById(id));
+
+    }
+    @PostMapping("/examin")
+    @ResponseBody
+    public Result examin(@RequestBody Vacate vacate){
+        System.err.println(vacate);
+        UpdateWrapper<Vacate> updateWrapper=new UpdateWrapper<>();
+        updateWrapper.set("comment",vacate.getComment()).set("state","通过").eq("id",vacate.getId());
+        vacateService.update(vacate,updateWrapper);
+
+        return  Result.success("success");
 
     }
 }

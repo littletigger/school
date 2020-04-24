@@ -12,5 +12,7 @@ public class Vacate extends BaseEntity {
     long classId;
     long teacherId;
     String state="待审核";
+    String name;
+    String comment;
 
 }
