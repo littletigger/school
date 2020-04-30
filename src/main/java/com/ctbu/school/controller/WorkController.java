@@ -5,6 +5,7 @@ import com.ctbu.school.model.Inform;
 import com.ctbu.school.model.Student;
 import com.ctbu.school.model.Work;
 import com.ctbu.school.service.WorkService;
+import com.ctbu.school.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,14 +19,17 @@ import java.util.List;
 public class WorkController {
     @Autowired
     WorkService workService;
+
+    //查询对应班级下的家庭作业
     @GetMapping("/work")
     @ResponseBody
     public List<Work> homeWork(@RequestParam("classId")long classId){
         Date date=new Date();
         QueryWrapper<Work> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("class_id",classId);
+        queryWrapper.eq("class_id",classId).orderByDesc("end_time");
        ;
        List<Work>workList= workService.list(queryWrapper);
+       //根据截止时间修改当前作业状态
         for (Work w: workList
              ) {
             if (date.before(w.getEndTime())){
@@ -33,7 +37,7 @@ public class WorkController {
             }else {
                 w.setState("已截止");
             }
-
+            w.setTime(TimeUtil.formatDate(w.getCreateTime()));
         }
         System.err.println(workList);
         return workList ;

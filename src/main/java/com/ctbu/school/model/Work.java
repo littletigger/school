@@ -16,5 +16,6 @@ public class Work extends BaseEntity {
     long classId;
     String state;
     String image;
+    String time;
 
 }

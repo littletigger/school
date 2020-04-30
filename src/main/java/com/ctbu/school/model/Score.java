@@ -3,20 +3,25 @@ package com.ctbu.school.model;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-@TableName("grade")
 @Data
-public class Grade extends BaseEntity {
-    long studentId;
-    long term;
-    String examName;
-    long math;
-    long chinese;
+public class Score {
+   String name;
+   long math;
+   long engilsh;
+   long chinese;
     long english;
     long physics;
     long chemistry;
     long sport;
     long biology;
-    long examId;
-    String studentName;
+    long total;
+    long termId;
+    long studentId;
+     String examName;
+     long examId;
+     long rank;
+
+
+
 
 }

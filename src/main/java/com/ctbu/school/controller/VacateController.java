@@ -22,13 +22,15 @@ public class VacateController {
     VacateService vacateService;
     @Autowired
     TeacherClassService teacherClassService;
+
+    //请假申请
     @PostMapping("/vacate")
     @ResponseBody
     public Result vacate(@RequestBody Vacate vacate){
         QueryWrapper<TeacherClass> queryWrapper=new QueryWrapper();
         queryWrapper.eq("class_id",vacate.getClassId()).eq("manager",1);
         System.err.println(vacate);
-
+        //查找到班级的班主任提交请假条
         TeacherClass teacherClass=teacherClassService.getOne(queryWrapper);
         if (teacherClass!=null){
             vacate.setTeacherId(teacherClass.getTeacherid());
@@ -38,7 +40,7 @@ public class VacateController {
         return Result.error(0,"找不到老师");
 
     }
-
+    //显示请假列表
     @GetMapping("/vaList")
     @ResponseBody
     public Result vaList(@RequestParam("teacherId")long teacherId ){
@@ -48,6 +50,9 @@ public class VacateController {
         return  Result.success(vacateService.list(queryWrapper));
 
     }
+
+
+    //显示请假详情
     @GetMapping("/vaDetail")
     @ResponseBody
     public Result vaDetail(@RequestParam("id")long id){
@@ -56,12 +61,17 @@ public class VacateController {
         return  Result.success(vacateService.getById(id));
 
     }
+
+
+
+    //请假审核
     @PostMapping("/examin")
     @ResponseBody
     public Result examin(@RequestBody Vacate vacate){
         System.err.println(vacate);
         UpdateWrapper<Vacate> updateWrapper=new UpdateWrapper<>();
-        updateWrapper.set("comment",vacate.getComment()).set("state","通过").eq("id",vacate.getId());
+        //更新请假条中的老师意见和审核结果
+        updateWrapper.set("comment",vacate.getComment()).set("state",vacate.getState()).eq("id",vacate.getId());
         vacateService.update(vacate,updateWrapper);
 
         return  Result.success("success");

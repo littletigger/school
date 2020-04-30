@@ -31,6 +31,10 @@ public class TestController {
         System.out.print(test);
         //testService.save(test);
     }
+
+
+
+    //查找对应班级下的班级圈
     @GetMapping("/index")
     @ResponseBody
     public List<IndexDto> index(@RequestParam("classId")long classId){
@@ -39,6 +43,7 @@ public class TestController {
         queryWrapperAticle.eq("class_id",classId);
         List<IndexDto>indexDtos=new ArrayList<>();
         //System.err.println( articleService.list());
+        //封装数据，将每篇文章的评论与文章封装到一起传输到前端
         for (Article a:articleService.list(queryWrapperAticle)
              ) {
             queryWrapper.eq("article_id",a.getId());

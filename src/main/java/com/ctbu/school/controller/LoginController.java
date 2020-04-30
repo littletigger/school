@@ -31,6 +31,7 @@ public class LoginController {
     @Autowired
     TeacherService teacherService;
 
+    //登录
     @PostMapping("/login")
     @ResponseBody
     public Result login(@RequestParam("user")String user,@RequestParam("password")String password,@RequestParam("radio")String radio){
