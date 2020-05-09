@@ -16,6 +16,6 @@ spring:
 swagger:
   base-package: com.ctbu.school.controller
   title: ctbu
-  description: ??????
+
   authorization:
     key-name: Authorization

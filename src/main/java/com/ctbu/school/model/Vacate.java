@@ -15,4 +15,19 @@ public class Vacate extends BaseEntity {
     String name;
     String comment;
 
+    @Override
+    public String toString() {
+        return "Vacate{" +
+                "beginTime='" + beginTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", content='" + content + '\'' +
+                ", classId=" + classId +
+                ", teacherId=" + teacherId +
+                ", state='" + state + '\'' +
+                ", name='" + name + '\'' +
+                ", comment='" + comment + '\'' +
+                ", id=" + id +
+                ", createTime=" + createTime +
+                '}';
+    }
 }

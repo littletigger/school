@@ -12,5 +12,5 @@ public class ScoreAnaly {
     long studentId;
     long total;
     long raise;
-    //long avarage;
+    long average;
 }

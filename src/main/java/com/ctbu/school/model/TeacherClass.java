@@ -7,8 +7,8 @@ import lombok.Data;
 @TableName("teacher_class")
 @Data
 public class TeacherClass extends BaseEntity {
-    long teacherid;
-    long classid;
+    long teacherId;
+    long classId;
      byte manager;
 
 }

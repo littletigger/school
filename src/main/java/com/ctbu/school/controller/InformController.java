@@ -1,6 +1,7 @@
 package com.ctbu.school.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ctbu.school.dto.InformDto;
 import com.ctbu.school.model.Comment;
 import com.ctbu.school.model.Inform;
 import com.ctbu.school.model.TeacherClass;
@@ -26,11 +27,20 @@ public class InformController {
 
     @GetMapping("/inform")
     @ResponseBody
-    public List<Inform> inform(@RequestParam("classId")long classId){
+    public List<InformDto> inform(@RequestParam("classId")long classId){
         QueryWrapper<Inform> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("class_id",classId);
         System.err.println(informService.list(queryWrapper));
-      return informService.list(queryWrapper);
+        List<InformDto> informDtoList=new ArrayList<>();
+        for (Inform inform:informService.list(queryWrapper)
+             ) {
+            InformDto informDto=new InformDto(inform);
+            informDtoList.add(informDto);
+
+        }
+
+
+      return informDtoList;
     }
 
     @GetMapping("/inform/detail")
@@ -45,19 +55,26 @@ public class InformController {
 
     @GetMapping("/tinform")
     @ResponseBody
-    public List<Inform>tinform(@RequestParam("teacherId")long id){
-        List<Long> classIds=new ArrayList<>();
+    public List<InformDto>tinform(@RequestParam("teacherId")long id){
+        List<InformDto> informDtoList=new ArrayList<>();
          QueryWrapper<TeacherClass> queryWrapper=new QueryWrapper<>();
          queryWrapper.eq("teacher_id",id);
-        QueryWrapper<Inform> queryWrapperinform=new QueryWrapper<>();
+        QueryWrapper<Inform> informQueryWrapper = new QueryWrapper<>();
+
         List<TeacherClass> teacherClasses=teacherClassService.list(queryWrapper);
         for (TeacherClass t:teacherClasses
              ) {
-            classIds.add(t.getClassid());
+            informQueryWrapper.eq("class_id",t.getClassId());
+            for (Inform inform:informService.list(informQueryWrapper)
+            ) {
+                InformDto informDto=new InformDto(inform);
+                informDtoList.add(informDto);
+
+            }
         }
 
 
-        System.err.println(informService.listByIds(classIds));
-        return informService.listByIds(classIds);
+
+        return  informDtoList;
     }
 }

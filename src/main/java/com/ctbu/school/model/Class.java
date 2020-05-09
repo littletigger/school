@@ -2,11 +2,10 @@ package com.ctbu.school.model;
 
 import lombok.Data;
 
-import java.util.Date;
 @Data
-public class BaseEntity {
+public class Class {
     long id;
-    Date createTime;
-
+    String className;
+    long studentNumber;
 
 }

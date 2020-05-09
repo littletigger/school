@@ -33,7 +33,7 @@ public class VacateController {
         //查找到班级的班主任提交请假条
         TeacherClass teacherClass=teacherClassService.getOne(queryWrapper);
         if (teacherClass!=null){
-            vacate.setTeacherId(teacherClass.getTeacherid());
+            vacate.setTeacherId(teacherClass.getTeacherId());
             vacateService.save(vacate);
             return Result.success("提交成功");
         }
@@ -71,8 +71,12 @@ public class VacateController {
         System.err.println(vacate);
         UpdateWrapper<Vacate> updateWrapper=new UpdateWrapper<>();
         //更新请假条中的老师意见和审核结果
-        updateWrapper.set("comment",vacate.getComment()).set("state",vacate.getState()).eq("id",vacate.getId());
-        vacateService.update(vacate,updateWrapper);
+        if(vacate.getState().equals('1'))
+        updateWrapper.set("comment",vacate.getComment()).set("state","已同意").eq("id",vacate.getId());
+        else{
+            updateWrapper.set("comment",vacate.getComment()).set("state","已拒绝").eq("id",vacate.getId());
+        }
+        vacateService.update(null,updateWrapper);
 
         return  Result.success("success");
 
